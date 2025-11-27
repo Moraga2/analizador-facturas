@@ -4,7 +4,7 @@ import os
 import tempfile
 
 # --- CONFIGURACIÓN DE PÁGINA ---
-st.set_page_config(page_title="GSM ElectroBot", page_icon="🤖", layout="centered")
+st.set_page_config(page_title="CazaFacturas", page_icon="⚡", layout="centered")
 
 # --- GESTIÓN DE ESTADO ---
 if 'api_key' not in st.session_state: st.session_state.api_key = ''
@@ -98,10 +98,10 @@ st.markdown(f"""
     }}
 
     .bombilla {{
-        font-size: 40px;
+        font-size: 60px;
         margin-bottom: -15px; 
-        z-index: 80;
-        transition: all 2s ease;
+        z-index: 102;
+        transition: all 0.5s ease;
     }}
     
     .obrero {{
@@ -120,8 +120,8 @@ clase_css_bombilla = f"bombilla-{estado_bombilla}"
 st.markdown(f"""
     <div class="footer-container">
         <div class="worker-wrapper">
-            <div class="bombilla {clase_css_bombilla}">🔋</div>
-            <div class="obrero">🤖</div>
+            <div class="bombilla {clase_css_bombilla}">💡</div>
+            <div class="obrero">👷‍♂️</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -147,7 +147,7 @@ def conseguir_modelo_automatico():
     except: return "gemini-1.5-flash"
 
 # --- INTERFAZ ---
-st.title("ELECTRO-BOT⚡⚡")
+st.title("🧟🔪⚡ DESTRIPADOR DE FACTURAS")
 
 # 1. LOGIN
 if not st.session_state.api_key:
