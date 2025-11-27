@@ -98,10 +98,10 @@ st.markdown(f"""
     }}
 
     .bombilla {{
-        font-size: 60px;
+        font-size: -40px;
         margin-bottom: -15px; 
         z-index: 102;
-        transition: all 0.5s ease;
+        transition: all 2s ease;
     }}
     
     .obrero {{
@@ -147,7 +147,7 @@ def conseguir_modelo_automatico():
     except: return "gemini-1.5-flash"
 
 # --- INTERFAZ ---
-st.title("🧟🔪⚡ DESTRIPADOR DE FACTURAS")
+st.title("ELECTRO-BOT⚡⚡")
 
 # 1. LOGIN
 if not st.session_state.api_key:
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
