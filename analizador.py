@@ -23,7 +23,7 @@ st.markdown(f"""
     /* Fondo Azul Oscuro */
     .stApp {{ background-color: #001f3f; color: #FFFFFF; }}
     
-    /* TÍTULO (DESPLAZADO -30PX A LA DERECHA) */
+    /* TÍTULO (DESPLAZADO 10PX A LA IZQUIERDA) */
     h1 {{
         color: #FF851B !important;
         text-align: center;
@@ -243,5 +243,6 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
