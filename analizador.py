@@ -12,9 +12,7 @@ if 'ultimo_archivo' not in st.session_state: st.session_state.ultimo_archivo = N
 if 'modelo_usar' not in st.session_state: st.session_state.modelo_usar = None
 if 'viendo_resultados' not in st.session_state: st.session_state.viendo_resultados = False
 
-# Lógica de la bombilla: 
-# OFF (Gris) -> Si no hay clave O si estamos viendo el popup
-# ON (Brillante) -> Si hay clave Y estamos en la pantalla de subir
+# Lógica de la bombilla
 estado_bombilla = "off"
 if st.session_state.api_key and not st.session_state.viendo_resultados:
     estado_bombilla = "on"
@@ -25,15 +23,14 @@ st.markdown(f"""
     /* Fondo Azul Oscuro */
     .stApp {{ background-color: #001f3f; color: #FFFFFF; }}
     
-    /* TÍTULO (DESPLAZADO 50PX A LA DERECHA) */
+    /* TÍTULO (DESPLAZADO 10PX A LA DERECHA) */
     h1 {{
         color: #FF851B !important;
         text-align: center;
         font-family: 'Arial Black', sans-serif;
         white-space: nowrap !important;
         font-size: 2.8rem !important;
-        /* AQUÍ ESTÁ EL AJUSTE: 10px a la derecha */
-        transform: translateX(-30px); 
+        transform: translateX(10px); 
     }}
     
     h2, h3, h4, h5, h6 {{ color: #FF851B !important; text-align: center; }}
@@ -89,7 +86,7 @@ st.markdown(f"""
         justify-content: center;
         align-items: flex-end;
         pointer-events: none;
-        z-index: 999999; /* Siempre visible por encima de todo */
+        z-index: 999999;
         padding-bottom: 10px;
     }}
     
@@ -112,21 +109,13 @@ st.markdown(f"""
         z-index: 101;
     }}
 
-    /* ESTADOS DE LA BOMBILLA */
-    .bombilla-on {{
-        filter: drop-shadow(0 0 20px #FFFF00) brightness(1.2);
-        opacity: 1;
-    }}
-    
-    .bombilla-off {{
-        filter: grayscale(100%) brightness(0.3);
-        opacity: 0.6;
-    }}
+    .bombilla-on {{ filter: drop-shadow(0 0 20px #FFFF00) brightness(1.2); opacity: 1; }}
+    .bombilla-off {{ filter: grayscale(100%) brightness(0.3); opacity: 0.6; }}
 
     </style>
     """, unsafe_allow_html=True)
 
-# --- FOOTER DINÁMICO (PUESTO AQUÍ AL PRINCIPIO PARA QUE NO DESAPAREZCA) ---
+# --- FOOTER ---
 clase_css_bombilla = f"bombilla-{estado_bombilla}"
 st.markdown(f"""
     <div class="footer-container">
@@ -158,7 +147,6 @@ def conseguir_modelo_automatico():
     except: return "gemini-1.5-flash"
 
 # --- INTERFAZ ---
-# TÍTULO EN UNA SOLA LÍNEA (Desplazado por CSS)
 st.title("🧟🔪⚡ DESTRIPADOR DE FACTURAS")
 
 # 1. LOGIN
@@ -167,7 +155,8 @@ if not st.session_state.api_key:
     input_clave = st.text_input("CÓDIGO DE ACCESO:", type="password")
     if input_clave:
         if input_clave == "GSM":
-            st.session_state.api_key = "AIzaSyD6bEAr-b4nIxSdHEM2vcND9LUX7sled7Q"
+            # AQUÍ ES DONDE HEMOS CAMBIADO LA SEGURIDAD
+            st.session_state.api_key = st.secrets["GOOGLE_API_KEY"]
             st.rerun()
         else: st.error("⛔ CÓDIGO INCORRECTO")
 
