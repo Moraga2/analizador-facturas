@@ -72,7 +72,7 @@ st.markdown(f"""
     }}
     .rocket-emoji {{
         position: absolute; font-size: 100px;
-        animation: fly-diagonal 12s linear infinite; 
+        animation: fly-diagonal 11s linear infinite; 
         text-shadow: 0 0 20px rgba(255, 133, 27, 0.5);
     }}
 
@@ -98,10 +98,10 @@ st.markdown(f"""
     }}
 
     .bombilla {{
-        font-size: 60px;
-        margin-bottom: -15px; 
+        font-size: 40px;
+        margin-bottom: -30px; 
         z-index: 102;
-        transition: all 0.5s ease;
+        transition: all 0.8s ease;
     }}
     
     .obrero {{
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
