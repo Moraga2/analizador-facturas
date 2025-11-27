@@ -101,7 +101,7 @@ st.markdown(f"""
         font-size: 40px;
         margin-bottom: -30px; 
         z-index: 102;
-        transition: all 1.5s ease;
+        transition: all 3s ease;
     }}
     
     .obrero {{
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
