@@ -30,7 +30,7 @@ st.markdown(f"""
         font-family: 'Arial Black', sans-serif;
         white-space: nowrap !important;
         font-size: 2.8rem !important;
-        transform: translateX(-5px); 
+        transform: translateX(1px); 
     }}
     
     h2, h3, h4, h5, h6 {{ color: #FF851B !important; text-align: center; }}
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
