@@ -99,8 +99,8 @@ st.markdown(f"""
 
     .bombilla {{
         font-size: 40px;
-        margin-bottom: -15px; 
-        z-index: 150;
+        margin-bottom: -80px; 
+        z-index: 102;
         transition: all 4s ease;
     }}
     
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
