@@ -4,7 +4,7 @@ import os
 import tempfile
 
 # --- CONFIGURACIÓN DE PÁGINA ---
-st.set_page_config(page_title="CazaFacturas", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="GSM ElectroBot", page_icon="🤖", layout="centered")
 
 # --- GESTIÓN DE ESTADO ---
 if 'api_key' not in st.session_state: st.session_state.api_key = ''
@@ -12,18 +12,18 @@ if 'ultimo_archivo' not in st.session_state: st.session_state.ultimo_archivo = N
 if 'modelo_usar' not in st.session_state: st.session_state.modelo_usar = None
 if 'viendo_resultados' not in st.session_state: st.session_state.viendo_resultados = False
 
-# Lógica de la bombilla: 
-# OFF -> Si no hay clave O si estamos viendo el popup
-# ON -> Si hay clave Y estamos en la pantalla de subir
-estado_bombilla = "off"
+# Lógica del LED del Robot (Equivalente a tu bombilla)
+# OFF (Gris) -> Si no hay clave O si estamos viendo el popup
+# ON (Verde Brillante) -> Si hay clave Y estamos en la pantalla de subir
+estado_led = "off"
 if st.session_state.api_key and not st.session_state.viendo_resultados:
-    estado_bombilla = "on"
+    estado_led = "on"
 
-# --- ESTILO VISUAL ---
+# --- ESTILO VISUAL (TEMA ROBOT) ---
 st.markdown(f"""
     <style>
-    /* Fondo Azul Oscuro */
-    .stApp {{ background-color: #001f3f; color: #FFFFFF; }}
+    /* Fondo Azul Oscuro Tecnológico */
+    .stApp {{ background-color: #0b1120; color: #00ff41; font-family: 'Courier New', monospace; }}
     
     /* --- CENTRADO MAESTRO --- */
     div.block-container {{
@@ -36,85 +36,91 @@ st.markdown(f"""
         padding-bottom: 50px !important;
     }}
 
-    /* TÍTULO PERSONALIZADO */
+    /* TÍTULO ROBÓTICO */
     .custom-title {{
-        color: #FF851B;
+        color: #00ff41; /* Verde Hacker */
         text-align: center;
-        font-family: 'Arial Black', sans-serif;
-        font-size: 3rem;
+        font-family: 'Courier New', monospace;
+        font-weight: 900;
+        font-size: 2.5rem;
         white-space: nowrap;
         margin-bottom: 40px;
-        text-shadow: 2px 2px 4px #000000;
-        /* AQUÍ ESTÁ EL AJUSTE: 10px a la derecha */
-        transform: translateX(10px); 
+        text-shadow: 0px 0px 10px rgba(0, 255, 65, 0.7);
+        letter-spacing: -2px;
+        /* Ajuste de posición centrado para el robot */
+        width: 100%;
     }}
     
-    /* Inputs */
+    /* Inputs (Estilo Terminal) */
     .stTextInput {{ width: 100%; max-width: 600px; margin-bottom: 20px; }}
     .stTextInput > div > div > input {{
-        background-color: #001226; color: white; border: 2px solid #FF851B;
-        text-align: center; font-weight: bold; letter-spacing: 2px;
-        padding: 1.5rem; font-size: 1.5rem; border-radius: 10px;
+        background-color: #000000; 
+        color: #00ff41; 
+        border: 2px solid #00ff41;
+        text-align: center; font-weight: bold; letter-spacing: 3px;
+        padding: 1.5rem; font-size: 1.5rem; border-radius: 5px;
     }}
     
-    /* Uploader */
+    /* Uploader (Zona de carga) */
     .stFileUploader {{
-        border: 4px dashed #FF851B;
-        border-radius: 25px;
-        padding: 50px;
-        background-color: #001226;
+        border: 2px dashed #00ff41;
+        border-radius: 10px;
+        padding: 40px;
+        background-color: #050a14;
         text-align: center;
         width: 100%; max-width: 800px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
     }}
     .stFileUploader label {{
         width: 100%; text-align: center; display: block;
-        font-size: 1.8rem !important; color: #FF851B !important; font-weight: bold;
-        margin-bottom: 20px;
+        font-size: 1.5rem !important; color: #00ff41 !important; font-weight: bold;
+        margin-bottom: 20px; font-family: 'Courier New', monospace;
     }}
     .stFileUploader small {{ display: none; }}
     
     /* Botones */
     .stButton > button {{
-        background-color: #FF851B; color: white; border: none; width: 100%; font-weight: bold;
-        padding: 15px; border-radius: 10px; font-size: 1.1rem;
+        background-color: #00ff41; color: #000000; border: none; width: 100%; font-weight: bold;
+        padding: 15px; border-radius: 5px; font-size: 1.1rem; text-transform: uppercase;
     }}
-    .stButton > button:hover {{ background-color: #e07b17; }}
+    .stButton > button:hover {{ background-color: #00cc33; color: white; }}
 
-    /* --- COHETE --- */
-    @keyframes fly-diagonal {{
-        0% {{ transform: translate(-10vw, 110vh) scale(1); opacity: 0; }}
-        5% {{ opacity: 1; }}
-        95% {{ opacity: 1; }}
+    /* --- ANIMACIÓN DEL ROBOT VOLADOR --- */
+    @keyframes fly-scan {{
+        0% {{ transform: translate(-10vw, 50vh) scale(1); opacity: 0; }}
+        10% {{ opacity: 1; }}
+        90% {{ opacity: 1; }}
         100% {{ transform: translate(110vw, -10vh) scale(1); opacity: 0; }}
     }}
     .rocket-container {{
         position: fixed; left: 0; top: 0; width: 100%; height: 100%;
-        pointer-events: none; z-index: 9998; /* Un poco menos que el obrero */
+        pointer-events: none; z-index: 9998;
     }}
     .rocket-emoji {{
-        position: absolute; font-size: 150px;
-        animation: fly-diagonal 12s linear infinite; 
-        text-shadow: 0 0 20px rgba(255, 133, 27, 0.5);
+        position: absolute; font-size: 120px;
+        animation: fly-scan 8s linear infinite; 
+        filter: drop-shadow(0 0 15px #00ff41);
     }}
 
-    /* --- FOOTER (OBRERO) --- */
+    /* --- FOOTER (ROBOT BASE) --- */
     .footer-container {{
         position: fixed; bottom: 0; left: 0; width: 100%;
         display: flex; justify-content: center; align-items: flex-end;
         pointer-events: none; 
-        z-index: 999999; /* SIEMPRE POR ENCIMA */
+        z-index: 999999; /* Siempre visible */
         padding-bottom: 10px;
     }}
     .worker-wrapper {{
         position: relative; display: flex; flex-direction: column; align-items: center;
     }}
-    .bombilla {{
-        font-size: 70px; margin-bottom: -20px; z-index: 102; transition: all 0.5s ease;
+    .led {{
+        font-size: 40px; margin-bottom: -10px; z-index: 102; transition: all 0.5s ease;
     }}
-    .obrero {{ font-size: 140px; z-index: 101; }}
-    .bombilla-on {{ filter: drop-shadow(0 0 30px #FFFF00) brightness(1.3); opacity: 1; }}
-    .bombilla-off {{ filter: grayscale(100%) brightness(0.3); opacity: 0.6; }}
+    .robot-base {{ font-size: 120px; z-index: 101; }}
+    
+    /* Estados del LED */
+    .led-on {{ text-shadow: 0 0 20px #00FF00; opacity: 1; filter: brightness(1.5); }}
+    .led-off {{ filter: grayscale(100%) brightness(0.3); opacity: 0.5; }}
     
     /* Ocultar elementos extra */
     #MainMenu {{visibility: hidden;}}
@@ -124,24 +130,24 @@ st.markdown(f"""
     </style>
     """, unsafe_allow_html=True)
 
-# --- CARGAR FOOTER AQUÍ (AL PRINCIPIO) PARA QUE NO DESAPAREZCA ---
-clase_css_bombilla = f"bombilla-{estado_bombilla}"
+# --- CARGAR FOOTER (ROBOT) ---
+clase_css_led = f"led-{estado_led}"
 st.markdown(f"""
     <div class="footer-container">
         <div class="worker-wrapper">
-            <div class="bombilla {clase_css_bombilla}">💡</div>
-            <div class="obrero">👷‍♂️</div>
+            <div class="led {clase_css_led}">🔋</div>
+            <div class="robot-base">🤖</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 # --- POP-UP ---
-@st.dialog("📋 RESULTADOS DEL ANÁLISIS", width="large")
+@st.dialog("📟 ANÁLISIS COMPLETADO", width="large")
 def mostrar_popup(texto_resultado):
     st.markdown(texto_resultado)
     st.markdown("---")
-    if st.button("Cerrar y Analizar Otra"):
-        st.session_state.viendo_resultados = False 
+    if st.button("Cerrar y Escanear Otra"):
+        st.session_state.viendo_resultados = False
         st.rerun()
 
 # --- DETECTOR MODELO ---
@@ -159,36 +165,39 @@ def conseguir_modelo_automatico():
 
 # 1. LOGIN
 if not st.session_state.api_key:
-    st.markdown('<div class="custom-title">🧟🔪⚡ DESTRIPADOR DE FACTURAS</div>', unsafe_allow_html=True)
+    st.markdown('<div class="custom-title">🤖⚡ GSM ELECTRO-BOT ⚡🤖</div>', unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
-    input_clave = st.text_input("ZONA DE ACCESO", type="password", placeholder="CÓDIGO DE ACCESO", label_visibility="collapsed")
+    
+    input_clave = st.text_input("PROTOCOLO DE SEGURIDAD", type="password", placeholder="INTRODUCE CÓDIGO...", label_visibility="collapsed")
     
     if input_clave:
         if input_clave == "GSM":
             try:
+                # Tu lógica de Secrets que funcionaba bien
                 st.session_state.api_key = st.secrets["GOOGLE_API_KEY"]
                 st.rerun()
             except:
-                st.error("⚠️ Error: Configura el Secret en Streamlit.")
-        else: st.error("⛔ CÓDIGO INCORRECTO")
+                st.error("⚠️ Error: Configura los Secrets en Streamlit.")
+        else: 
+            st.error("⛔ ACCESO DENEGADO")
 
 # 2. APP
 else:
-    st.markdown('<div class="custom-title">🧟🔪⚡ DESTRIPADOR DE FACTURAS</div>', unsafe_allow_html=True)
+    st.markdown('<div class="custom-title">🤖⚡ GSM ELECTRO-BOT ⚡🤖</div>', unsafe_allow_html=True)
     
     try:
         genai.configure(api_key=st.session_state.api_key)
         if not st.session_state.modelo_usar: st.session_state.modelo_usar = conseguir_modelo_automatico()
         
-        uploaded_file = st.file_uploader("👇 SUBIR FACTURA AQUÍ 👇", type=["pdf", "jpg", "png"])
+        uploaded_file = st.file_uploader("📥 ALIMENTA AL ROBOT AQUÍ 📥", type=["pdf", "jpg", "png"])
 
         if uploaded_file is not None:
             if uploaded_file != st.session_state.ultimo_archivo:
                 
-                # COHETE
+                # ROBOT VOLADOR (Sustituye al cohete)
                 placeholder_rocket = st.empty()
                 placeholder_rocket.markdown("""
-                    <div class="rocket-container"><div class="rocket-emoji">🚀</div></div>
+                    <div class="rocket-container"><div class="rocket-emoji">🤖</div></div>
                 """, unsafe_allow_html=True)
                 
                 try:
@@ -198,6 +207,7 @@ else:
                     
                     myfile = genai.upload_file(tmp_path)
 
+                    # TU PROMPT EXACTO (El que funciona)
                     prompt = """
                     Actúa como experto administrativo. Extrae los datos:
                     
