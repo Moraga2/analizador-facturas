@@ -30,7 +30,7 @@ st.markdown(f"""
         font-family: 'Arial Black', sans-serif;
         white-space: nowrap !important;
         font-size: 2.8rem !important;
-        transform: translateX(10px); 
+        transform: translateX(-20px); 
     }}
     
     h2, h3, h4, h5, h6 {{ color: #FF851B !important; text-align: center; }}
@@ -72,7 +72,7 @@ st.markdown(f"""
     }}
     .rocket-emoji {{
         position: absolute; font-size: 100px;
-        animation: fly-diagonal 12s linear infinite; 
+        animation: fly-diagonal 11s linear infinite; 
         text-shadow: 0 0 20px rgba(255, 133, 27, 0.5);
     }}
 
@@ -98,10 +98,10 @@ st.markdown(f"""
     }}
 
     .bombilla {{
-        font-size: 60px;
+        font-size: 40px;
         margin-bottom: -15px; 
         z-index: 102;
-        transition: all 0.5s ease;
+        transition: all 4s ease;
     }}
     
     .obrero {{
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
