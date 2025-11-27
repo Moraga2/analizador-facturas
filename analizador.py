@@ -4,7 +4,7 @@ import os
 import tempfile
 
 # --- CONFIGURACIÓN DE PÁGINA ---
-st.set_page_config(page_title="CazaFacturas", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="GSM ElectroBot", page_icon="🤖", layout="centered")
 
 # --- GESTIÓN DE ESTADO ---
 if 'api_key' not in st.session_state: st.session_state.api_key = ''
@@ -120,8 +120,8 @@ clase_css_bombilla = f"bombilla-{estado_bombilla}"
 st.markdown(f"""
     <div class="footer-container">
         <div class="worker-wrapper">
-            <div class="bombilla {clase_css_bombilla}">💡</div>
-            <div class="obrero">👷‍♂️</div>
+            <div class="bombilla {clase_css_bombilla}">🔋</div>
+            <div class="obrero">🤖</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
