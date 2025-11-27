@@ -23,14 +23,15 @@ st.markdown(f"""
     /* Fondo Azul Oscuro */
     .stApp {{ background-color: #001f3f; color: #FFFFFF; }}
     
-    /* TÍTULO (DESPLAZADO 100PX A LA IZQUIERDA) */
-    h1 {{
+    /* /* TÍTULO CENTRADO PERFECTO */
+    h1 {
         color: #FF851B !important;
         text-align: center;
         font-family: 'Arial Black', sans-serif;
         white-space: nowrap !important;
         font-size: 2.8rem !important;
-        transform: translateX(10px); 
+        /* HEMOS QUITADO EL TRANSFORM PARA QUE SE CENTRE SOLO */
+        width: 100%;
     }}
     
     h2, h3, h4, h5, h6 {{ color: #FF851B !important; text-align: center; }}
@@ -243,6 +244,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
