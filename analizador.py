@@ -72,7 +72,7 @@ st.markdown(f"""
     }}
     .rocket-emoji {{
         position: absolute; font-size: 100px;
-        animation: fly-diagonal 12s linear infinite; 
+        animation: fly-diagonal 10s linear infinite; 
         text-shadow: 0 0 20px rgba(255, 133, 27, 0.5);
     }}
 
@@ -101,7 +101,7 @@ st.markdown(f"""
         font-size: 50px;
         margin-bottom: -40px; 
         z-index: 102;
-        transition: all 0.5s ease;
+        transition: all 3s ease;
     }}
     
     .obrero {{
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
