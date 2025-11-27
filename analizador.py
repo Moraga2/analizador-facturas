@@ -4,7 +4,7 @@ import os
 import tempfile
 
 # --- CONFIGURACIÓN DE PÁGINA ---
-st.set_page_config(page_title="gsmELECTROBOT", page_icon="🔋", layout="centered")
+st.set_page_config(page_title="gsmELECTROBOT", page_icon="🤖", layout="centered")
 
 # --- GESTIÓN DE ESTADO ---
 if 'api_key' not in st.session_state: st.session_state.api_key = ''
@@ -147,7 +147,7 @@ def conseguir_modelo_automatico():
     except: return "gemini-1.5-flash"
 
 # --- INTERFAZ ---
-st.title("🤖⚡ELECTROBOT DE FACTURAS")
+st.title("🔋⚡ELECTROBOT DE FACTURAS")
 
 # 1. LOGIN
 if not st.session_state.api_key:
@@ -243,6 +243,7 @@ else:
         if st.button("Reiniciar"):
             st.session_state.api_key = ''
             st.rerun()
+
 
 
 
